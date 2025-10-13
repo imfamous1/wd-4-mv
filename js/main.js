@@ -4,7 +4,7 @@ let api_url = `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&ap
 
 // Устаревший, но валидный способ
 fetch(api_url)
-    .then(response => response.json())
+    .then(response => response.json()) /// blob
     .then(data => console.log("Температура в Москве:", data['main']['temp']))
     .catch(error => console.log(error))
 
