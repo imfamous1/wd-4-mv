@@ -33,7 +33,7 @@
 
 Таблицы для отчетности по группам доступны в Google Drive:
 
-📊 [Таблицы отчетности (5-МВ-4, 5-МВ-5)](https://drive.google.com/drive/folders/1qCBiBVJSiLy3fYMA1BAuyA6RHjCe-9oE?usp=sharing)
+📊 [Таблицы отчетности (5-МВ-4, 5-МВ-5)](https://docs.google.com/spreadsheets/d/17JjM0LFy6nXbYWioeZRvUafNkPoLOhuIci9E2vFiUh0/edit?gid=0#gid=0)
 
 ## Как используется
 - На занятиях мы разбираем и модифицируем код проекта
