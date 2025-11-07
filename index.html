@@ -1,16 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Учебные материалы</title>
+    <!-- GitHub Markdown CSS для красивого отображения -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/buttons.css">
 </head>
 <body>
-    <form action="" class="myForm">
-        <input type="email" class="userName" name="username">
-        <button type="submit">Отправить</button>
-    </form>
-    <script type="module" src="js/modules/utils.js"></script>
+    <div class="container">
+        <header class="header">
+            <h1>Учебные материалы</h1>
+        </header>
+
+        <main class="main-content">
+            <!-- Выбор категории -->
+            <section class="category-selection" id="categorySelection">
+                <h2>Выберите категорию:</h2>
+                <div class="category-buttons">
+                    <button class="category-btn" data-category="tasks">Задания (Tasks)</button>
+                    <button class="category-btn" data-category="lessons">Уроки (Lessons)</button>
+                    <button class="category-btn" data-category="exam">Экзамен (Exam)</button>
+                </div>
+            </section>
+
+            <!-- Список файлов в категории -->
+            <section class="file-list" id="fileList" style="display: none;">
+                <div class="file-list-header">
+                    <button class="back-btn" id="backBtn">← Назад к категориям</button>
+                    <h2 id="categoryTitle"></h2>
+                </div>
+                <ul class="file-items" id="fileItems"></ul>
+            </section>
+
+            <!-- Отображение содержимого файла -->
+            <section class="content-viewer" id="contentViewer" style="display: none;">
+                <div class="content-header">
+                    <button class="back-btn" id="backToFilesBtn">← Назад к списку</button>
+                    <h2 id="fileTitle"></h2>
+                </div>
+                <div class="content-body markdown-body" id="contentBody"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Библиотека для парсинга Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>

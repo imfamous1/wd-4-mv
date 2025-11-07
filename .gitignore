@@ -26,3 +26,7 @@ bower_components/
 # Build outputs
 dist/
 build/
+
+# Development files
+generate-index.js
+README.dev.md

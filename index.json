@@ -1,0 +1,52 @@
+{
+  "tasks": [
+    {
+      "name": "Задание 1",
+      "file": "task_1.md"
+    },
+    {
+      "name": "Задание 2",
+      "file": "task_2.md"
+    },
+    {
+      "name": "Задание 3",
+      "file": "task_3.md"
+    }
+  ],
+  "lessons": [
+    {
+      "name": "Урок 1",
+      "file": "lesson_1.md"
+    },
+    {
+      "name": "Урок 2",
+      "file": "lesson_2.md"
+    },
+    {
+      "name": "Урок 3",
+      "file": "lesson_3.md"
+    },
+    {
+      "name": "Урок 4",
+      "file": "lesson_4.md"
+    },
+    {
+      "name": "Урок 5",
+      "file": "lesson_5.md"
+    },
+    {
+      "name": "Урок 6",
+      "file": "lesson_6.md"
+    }
+  ],
+  "exam": [
+    {
+      "name": "Финальный проект",
+      "file": "final_project.md"
+    },
+    {
+      "name": "Билеты",
+      "file": "tickets.md"
+    }
+  ]
+}
