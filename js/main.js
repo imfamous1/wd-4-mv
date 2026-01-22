@@ -60,6 +60,24 @@ async function init() {
     });
 }
 
+// Переключение темы
+document.addEventListener('DOMContentLoaded', () => {
+    // Устанавливаем начальную тему
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    // Обработчик клика на тумблер
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+    }
+});
+
 // Запускаем инициализацию после загрузки DOM
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
@@ -100,22 +118,31 @@ function showFileList(category) {
     if (category === 'lessons') {
         const li = document.createElement('li');
         const practicumDiv = document.createElement('div');
-        practicumDiv.style.cssText = 'padding: 20px; background: #e8f4f8; border-radius: 8px; border-left: 4px solid #667eea; margin-top: 20px;';
+        practicumDiv.className = 'practicum-container';
+        practicumDiv.style.cssText = 'padding: 20px; background: var(--glass-bg); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 0.5px solid var(--separator); border-radius: 12px; margin-top: 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 0 rgba(0, 0, 0, 0.02) inset;';
         
         const title = document.createElement('h3');
         title.textContent = '📚 Дополнительный теоретический материал';
-        title.style.cssText = 'margin-bottom: 10px; color: #2c3e50; font-size: 18px;';
+        title.style.cssText = 'margin-bottom: 12px; color: var(--text-primary); font-size: 17px; font-weight: 600;';
         
         const link = document.createElement('a');
         link.href = 'Кокорин_Практикум_Web_design_Язык_JavaScript.docx';
         link.download = 'Кокорин_Практикум_Web_design_Язык_JavaScript.docx';
         link.className = 'practicum-link';
-        link.style.cssText = 'display: inline-block; padding: 12px 24px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; transition: background 0.2s;';
+        link.style.cssText = 'display: inline-block; padding: 10px 20px; background: var(--accent); color: white; text-decoration: none; border-radius: 8px; font-size: 15px; font-weight: 400; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);';
         link.textContent = '📥 Скачать практикум по JavaScript';
+        link.addEventListener('mouseenter', () => {
+            link.style.background = 'var(--accent-hover)';
+            link.style.transform = 'scale(1.02)';
+        });
+        link.addEventListener('mouseleave', () => {
+            link.style.background = 'var(--accent)';
+            link.style.transform = 'scale(1)';
+        });
         
         const description = document.createElement('p');
         description.textContent = 'Практикум содержит дополнительный теоретический материал для углубленного изучения JavaScript';
-        description.style.cssText = 'margin-top: 10px; color: #666; font-size: 14px;';
+        description.style.cssText = 'margin-top: 12px; color: var(--text-tertiary); font-size: 15px; font-weight: 400;';
         
         practicumDiv.appendChild(title);
         practicumDiv.appendChild(link);

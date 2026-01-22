@@ -14,6 +14,7 @@
     <div class="container">
         <header class="header">
             <h1>Учебные материалы</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему"></button>
         </header>
 
         <main class="main-content">
@@ -25,12 +26,12 @@
                     <button class="category-btn" data-category="lessons">Уроки (Lessons)</button>
                     <button class="category-btn" data-category="exam">Экзамен (Exam)</button>
                 </div>
-                <div style="text-align: center; margin-top: 40px; padding: 30px; background: #f8f9fa; border-radius: 8px;">
-                    <h3 style="margin-bottom: 15px; color: #2c3e50;">📱 Отсканируйте QR-код для открытия на мобильном устройстве</h3>
-                    <div style="display: inline-block; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://imfamous1.github.io/wd-4-mv/" alt="QR Code" style="max-width: 200px; display: block; margin: 0 auto;">
+                <div class="qr-container" style="text-align: center; margin-top: 40px; padding: 30px; background: var(--glass-bg); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 0.5px solid var(--separator); border-radius: 16px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 0 rgba(0, 0, 0, 0.02) inset;">
+                    <h3 style="margin-bottom: 15px; color: var(--text-primary); font-size: 17px; font-weight: 400;">📱 Отсканируйте QR-код для открытия на мобильном устройстве</h3>
+                    <div style="display: inline-block; padding: 20px; background: var(--bg-primary); border: 0.5px solid var(--separator); border-radius: 12px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://imfamous1.github.io/wd-4-mv/" alt="QR Code" style="max-width: 200px; display: block; margin: 0 auto; border-radius: 6px;">
                     </div>
-                    <p style="margin-top: 15px; color: #666; font-size: 14px;">Используйте камеру телефона для сканирования</p>
+                    <p style="margin-top: 15px; color: var(--text-tertiary); font-size: 15px; font-weight: 400;">Используйте камеру телефона для сканирования</p>
                 </div>
             </section>
 
@@ -53,6 +54,28 @@
             </section>
         </main>
     </div>
+
+    <!-- SVG фильтры для Liquid Glass эффекта -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <!-- Фильтр для преломления стекла -->
+            <filter id="liquid-glass" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="0.5"/>
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"/>
+                <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+            </filter>
+            <!-- Фильтр для бликов (specular highlight) -->
+            <filter id="specular-highlight" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+                <feOffset in="blur" dx="2" dy="2" result="offsetBlur"/>
+                <feSpecularLighting in="offsetBlur" surfaceScale="5" specularConstant="1.5" specularExponent="20" lighting-color="#ffffff">
+                    <fePointLight x="50" y="50" z="200"/>
+                </feSpecularLighting>
+                <feComposite in="specularOut" in2="SourceAlpha" operator="in" result="specularOut"/>
+                <feComposite in="SourceGraphic" in2="specularOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+            </filter>
+        </defs>
+    </svg>
 
     <!-- Библиотека для парсинга Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
