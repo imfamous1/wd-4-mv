@@ -58,20 +58,34 @@ async function init() {
             showFileList(category);
         });
     });
+    
+    // Генерируем QR-код при загрузке страницы
+    // Ждем немного, чтобы библиотека QRCode успела загрузиться
+    setTimeout(() => {
+        generateQRCode();
+    }, 100);
 }
 
-// Запускаем инициализацию
-init();
+// Запускаем инициализацию после загрузки DOM
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
 
 // Функция генерации QR-кода
 function generateQRCode() {
     const qrContainer = document.getElementById('qrcode');
-    if (qrContainer) {
-        const currentUrl = window.location.href;
-        // Очищаем контейнер
-        qrContainer.innerHTML = '';
-        
-        // Пробуем использовать библиотеку QRCode
+    if (!qrContainer) {
+        return; // Контейнер еще не существует
+    }
+    
+    const currentUrl = window.location.href;
+    // Очищаем контейнер
+    qrContainer.innerHTML = '';
+    
+    // Функция для попытки генерации с библиотекой
+    function tryGenerateWithLibrary() {
         if (typeof QRCode !== 'undefined') {
             try {
                 QRCode.toCanvas(qrContainer, currentUrl, {
@@ -85,18 +99,39 @@ function generateQRCode() {
                     if (error) {
                         console.error('Ошибка генерации QR-кода:', error);
                         // Fallback на API генерации QR-кода
-                        qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}" alt="QR Code" style="max-width: 200px; display: block; margin: 0 auto;">`;
+                        useFallback();
                     }
                 });
+                return true;
             } catch (error) {
                 console.error('Ошибка при генерации QR-кода:', error);
-                // Fallback на API генерации QR-кода
-                qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}" alt="QR Code" style="max-width: 200px; display: block; margin: 0 auto;">`;
+                useFallback();
+                return false;
             }
-        } else {
-            // Fallback на API генерации QR-кода, если библиотека не загрузилась
-            qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}" alt="QR Code" style="max-width: 200px; display: block; margin: 0 auto;">`;
         }
+        return false;
+    }
+    
+    // Fallback на API генерации QR-кода
+    function useFallback() {
+        qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}" alt="QR Code" style="max-width: 200px; display: block; margin: 0 auto;">`;
+    }
+    
+    // Пробуем использовать библиотеку QRCode
+    if (!tryGenerateWithLibrary()) {
+        // Если библиотека еще не загрузилась, ждем и пробуем еще раз
+        let attempts = 0;
+        const maxAttempts = 10;
+        const checkInterval = setInterval(() => {
+            attempts++;
+            if (typeof QRCode !== 'undefined') {
+                clearInterval(checkInterval);
+                tryGenerateWithLibrary();
+            } else if (attempts >= maxAttempts) {
+                clearInterval(checkInterval);
+                useFallback();
+            }
+        }, 100);
     }
 }
 
@@ -174,9 +209,6 @@ async function loadFile(category, filename, displayName) {
         
         fileTitle.textContent = displayName;
         contentBody.innerHTML = html;
-        
-        // Генерируем QR-код в главном меню
-        generateQRCode();
         
         fileList.style.display = 'none';
         contentViewer.style.display = 'block';
