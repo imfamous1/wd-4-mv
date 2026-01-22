@@ -63,6 +63,43 @@ async function init() {
 // Запускаем инициализацию
 init();
 
+// Функция генерации QR-кода
+function generateQRCode() {
+    const qrContainer = document.getElementById('qrcode');
+    if (qrContainer) {
+        const currentUrl = window.location.href;
+        // Очищаем контейнер
+        qrContainer.innerHTML = '';
+        
+        // Пробуем использовать библиотеку QRCode
+        if (typeof QRCode !== 'undefined') {
+            try {
+                QRCode.toCanvas(qrContainer, currentUrl, {
+                    width: 200,
+                    margin: 2,
+                    color: {
+                        dark: '#2c3e50',
+                        light: '#ffffff'
+                    }
+                }, function (error) {
+                    if (error) {
+                        console.error('Ошибка генерации QR-кода:', error);
+                        // Fallback на API генерации QR-кода
+                        qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}" alt="QR Code" style="max-width: 200px; display: block; margin: 0 auto;">`;
+                    }
+                });
+            } catch (error) {
+                console.error('Ошибка при генерации QR-кода:', error);
+                // Fallback на API генерации QR-кода
+                qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}" alt="QR Code" style="max-width: 200px; display: block; margin: 0 auto;">`;
+            }
+        } else {
+            // Fallback на API генерации QR-кода, если библиотека не загрузилась
+            qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}" alt="QR Code" style="max-width: 200px; display: block; margin: 0 auto;">`;
+        }
+    }
+}
+
 // Показать список файлов
 function showFileList(category) {
     currentCategory = category;
@@ -91,6 +128,34 @@ function showFileList(category) {
         li.appendChild(button);
         fileItems.appendChild(li);
     });
+    
+    // Добавляем кнопку на практикум в разделе уроков
+    if (category === 'lessons') {
+        const li = document.createElement('li');
+        const practicumDiv = document.createElement('div');
+        practicumDiv.style.cssText = 'padding: 20px; background: #e8f4f8; border-radius: 8px; border-left: 4px solid #667eea; margin-top: 20px;';
+        
+        const title = document.createElement('h3');
+        title.textContent = '📚 Дополнительный теоретический материал';
+        title.style.cssText = 'margin-bottom: 10px; color: #2c3e50; font-size: 18px;';
+        
+        const link = document.createElement('a');
+        link.href = 'Кокорин_Практикум_Web_design_Язык_JavaScript.docx';
+        link.download = 'Кокорин_Практикум_Web_design_Язык_JavaScript.docx';
+        link.className = 'practicum-link';
+        link.style.cssText = 'display: inline-block; padding: 12px 24px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; transition: background 0.2s;';
+        link.textContent = '📥 Скачать практикум по JavaScript';
+        
+        const description = document.createElement('p');
+        description.textContent = 'Практикум содержит дополнительный теоретический материал для углубленного изучения JavaScript';
+        description.style.cssText = 'margin-top: 10px; color: #666; font-size: 14px;';
+        
+        practicumDiv.appendChild(title);
+        practicumDiv.appendChild(link);
+        practicumDiv.appendChild(description);
+        li.appendChild(practicumDiv);
+        fileItems.appendChild(li);
+    }
 }
 
 // Загрузить и отобразить файл
@@ -110,6 +175,9 @@ async function loadFile(category, filename, displayName) {
         fileTitle.textContent = displayName;
         contentBody.innerHTML = html;
         
+        // Генерируем QR-код в главном меню
+        generateQRCode();
+        
         fileList.style.display = 'none';
         contentViewer.style.display = 'block';
     } catch (error) {
@@ -127,6 +195,8 @@ backBtn.addEventListener('click', () => {
     fileList.style.display = 'none';
     contentViewer.style.display = 'none';
     currentCategory = null;
+    // Регенерируем QR-код при возврате в главное меню
+    generateQRCode();
 });
 
 // Кнопка "Назад к списку"

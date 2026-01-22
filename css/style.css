@@ -157,6 +157,13 @@ body {
     border-radius: 4px;
 }
 
+/* Стили для ссылки на практикум */
+.practicum-link:hover {
+    background: #5568d3 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
 /* Кнопка "Назад" */
 .back-btn {
     padding: 10px 20px;

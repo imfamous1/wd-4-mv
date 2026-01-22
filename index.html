@@ -25,6 +25,11 @@
                     <button class="category-btn" data-category="lessons">Уроки (Lessons)</button>
                     <button class="category-btn" data-category="exam">Экзамен (Exam)</button>
                 </div>
+                <div style="text-align: center; margin-top: 40px; padding: 30px; background: #f8f9fa; border-radius: 8px;">
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">📱 Отсканируйте QR-код для открытия на мобильном устройстве</h3>
+                    <div id="qrcode" style="display: inline-block; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);"></div>
+                    <p style="margin-top: 15px; color: #666; font-size: 14px;">Используйте камеру телефона для сканирования</p>
+                </div>
             </section>
 
             <!-- Список файлов в категории -->
@@ -49,6 +54,8 @@
 
     <!-- Библиотека для парсинга Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+    <!-- Библиотека для генерации QR-кодов -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
